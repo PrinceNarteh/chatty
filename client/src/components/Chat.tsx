@@ -29,6 +29,7 @@ const Chat = () => {
               (image, idx) =>
                 idx < 3 && (
                   <div
+                    key={idx}
                     className="top-1 absolute w-10 h-10 shrink-0"
                     style={{ left: `${idx * 20}px` }}
                   >
