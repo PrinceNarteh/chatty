@@ -87,64 +87,62 @@ const Register = () => {
   // console.log({ image, imagePreview });
 
   return (
-    <div>
-      Register
-      <form onSubmit={handleSubmit(submitHandler)}>
-        <div>
-          <img
-            src={imagePreview || "/images/user-placeholder.png"}
-            alt=""
-            className="w-20 h-20 rounded-full"
-          />
-          <input type="file" onChange={(e) => validate(e)} />
-        </div>
-
-        <div>
-          <input type="text" {...register("firstName")} className="border" />
-          {errors["firstName"] && (
-            <span className="text-red-500 text-xs">
-              {errors["firstName"].message}
-            </span>
-          )}
-        </div>
-        <div>
-          <input type="text" {...register("lastName")} className="border" />
-          {errors["lastName"] && (
-            <span className="text-red-500 text-xs">
-              {errors["lastName"].message}
-            </span>
-          )}
-        </div>
-        <div>
-          <input type="email" {...register("email")} className="border" />
-          {errors["email"] && (
-            <span className="text-red-500 text-xs">
-              {errors["email"].message}
-            </span>
-          )}
-        </div>
-        <div>
-          <input type="password" {...register("password")} className="border" />
-          {errors["password"] && (
-            <span className="text-red-500 text-xs">
-              {errors["password"].message}
-            </span>
-          )}
-        </div>
-        <div>
+    <div className="min-h-screen text-white flex items-center justify-center">
+      <div className="flex flex-col justify-center items-center space-y-3 w-full max-w-xl mx-auto">
+        <img src="/images/logo.png" alt="" className="w-10 mb-10" />
+        <h3 className="text-4xl">Login</h3>
+        <p className="text-gray-500 w-10/12 text-center">
+          Please enter your email and password to login and continue
+        </p>
+        <form
+          onSubmit={handleSubmit(submitHandler)}
+          className="w-9/12 space-y-5"
+        >
+          <div className="flex flex-col md:flex-row gap-5 w-full">
+            <div className="w-full">
+              <input
+                type="firstName"
+                placeholder="First Name"
+                {...register("firstName")}
+                className="bg-transparent border border-light-green p-2 rounded-md w-full"
+              />
+              {errors["firstName"] && <p>{errors["firstName"].message}</p>}
+            </div>
+            <div className="w-full">
+              <input
+                type="lastName"
+                placeholder="Last Name"
+                {...register("lastName")}
+                className="bg-transparent border border-light-green p-2 rounded-md w-full"
+              />
+              {errors["lastName"] && <p>{errors["lastName"].message}</p>}
+            </div>
+          </div>
+          <div>
+            <input
+              type="email"
+              placeholder="Email"
+              {...register("email")}
+              className="bg-transparent border border-light-green p-2 rounded-md w-full"
+            />
+            {errors["email"] && <p>{errors["email"].message}</p>}
+          </div>
+          <div>
+            <input
+              type="password"
+              placeholder="Password"
+              {...register("password")}
+              className="bg-transparent border border-light-green p-2 rounded-md w-full"
+            />
+            {errors["password"] && <p>{errors["password"].message}</p>}
+          </div>
           <input
-            type="password"
-            {...register("confirmPassword")}
-            className="border"
+            type="submit"
+            value="Login"
+            className="bg-dark-green w-full py-2 rounded-md cursor-pointer font-bold"
           />
-          {errors["confirmPassword"] && (
-            <span className="text-red-500 text-xs">
-              {errors["confirmPassword"].message}
-            </span>
-          )}
-        </div>
-        <input type="submit" value="Register" />
-      </form>
+        </form>
+      </div>
     </div>
   );
 };
