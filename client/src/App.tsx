@@ -4,6 +4,7 @@ import { io, Socket } from "socket.io-client";
 function App() {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [onlineUser, setOnlineUser] = useState([]);
+  const [chat, setChat] = useState<string[]>([]);
   const [message, setMessage] = useState("");
 
   // handle connection
@@ -19,7 +20,9 @@ function App() {
   // add user to online users
   useEffect(() => {
     if (!socket) return;
-    socket.emit("addUser", (users: any) => {
+    socket.emit("addUser", "123");
+
+    socket.emit("getOnlineUsers", (users: any) => {
       setOnlineUser(users);
     });
 
@@ -28,6 +31,7 @@ function App() {
     };
   }, [socket]);
 
+  // send message
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -35,6 +39,14 @@ function App() {
 
     setMessage("");
   };
+
+  // listen to incoming messages
+  useEffect(() => {
+    if (!socket) return;
+    socket.on("receiveMessage", (newChat) => {
+      setChat((prevChat) => [...prevChat, newChat]);
+    });
+  }, [socket]);
 
   return (
     <>
