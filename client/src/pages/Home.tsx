@@ -52,9 +52,9 @@ function App() {
 
   return (
     <>
-      <div className="h-screen w-screen bg-dark-gray flex gap-10">
+      <div className="h-screen w-screen bg-dark-gray flex gap-10 p-3">
         <Sidebar />
-        <Main />
+        {/* <Main /> */}
       </div>
     </>
   );
