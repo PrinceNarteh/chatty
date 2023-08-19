@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import Sidebar from "../components/Sidebar";
-import Main from "../components/Main";
 
-function App() {
+const Main = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [onlineUser, setOnlineUser] = useState([]);
   const [chat, setChat] = useState<string[]>([]);
@@ -51,13 +49,24 @@ function App() {
   }, [socket]);
 
   return (
-    <>
-      <div className="h-screen w-screen bg-dark-gray flex gap-10">
-        <Sidebar />
-        <Main />
+    <main className="flex-1">
+      <div className="h-14 flex items-center gap-3 pl-5">
+        <img src="/images/logo.png" className="w-8 h-8" />
+        <span className="text-white text-2xl">Chatty</span>
       </div>
-    </>
+      <div className="bg-light-gray h-[calc(100vh_-_56px)] rounded-tl-lg p-5">
+        <h1>Chatty App</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <button>Send</button>
+        </form>
+      </div>
+    </main>
   );
-}
+};
 
-export default App;
+export default Main;
