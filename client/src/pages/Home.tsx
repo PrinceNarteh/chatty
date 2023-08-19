@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { io, Socket } from "socket.io-client";
 import Sidebar from "../components/Sidebar";
 import Main from "../components/Main";
+import Messages from "../components/Messages";
 
 function App() {
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -52,8 +53,9 @@ function App() {
 
   return (
     <>
-      <div className="h-screen w-screen bg-dark-gray flex gap-10 p-3">
+      <div className="h-screen w-screen bg-dark-gray flex gap-5 p-5">
         <Sidebar />
+        <Messages />
         {/* <Main /> */}
       </div>
     </>
