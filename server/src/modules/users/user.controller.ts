@@ -2,13 +2,10 @@ import { Request, Response } from "express";
 import { CreateUserDto } from "./user.schema";
 import User from "./user.model";
 
-export async function createUser(
-  req: Request<{}, {}, CreateUserDto["body"]>,
-  res: Response
-) {
+export async function createUser(createUserDto: CreateUserDto) {
   try {
-    const user = await User.create(req.body);
-    res.status(201).json(user);
+    const user = await User.create(createUserDto.body);
+    return user;
   } catch (error: any) {
     let msg: string;
     if (error.code === 11000) {
@@ -16,6 +13,6 @@ export async function createUser(
     } else {
       msg = error.message;
     }
-    res.status(400).json(msg);
+    return msg;
   }
 }

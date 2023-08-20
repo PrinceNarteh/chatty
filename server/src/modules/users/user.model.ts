@@ -1,17 +1,31 @@
-import { Schema, model } from "mongoose";
+import { Document, Model, Schema, model } from "mongoose";
+import bcrypt from "bcrypt";
 import { z } from "zod";
 
+// user interface
 interface IUser {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  profileImage?: string;
-  status: string;
+  profileImage: string;
+  status: "online" | "offline";
   newMessages: object;
 }
 
-const userSchema = new Schema<IUser>(
+// user document
+interface IUserDocument extends IUser, Document {}
+
+// user model
+
+interface UserModel extends Model<IUser> {
+  findByCredentials: (
+    email: string,
+    password: string
+  ) => Promise<IUserDocument>;
+}
+
+const userSchema = new Schema<IUser, UserModel>(
   {
     firstName: {
       type: String,
@@ -38,7 +52,7 @@ const userSchema = new Schema<IUser>(
     },
     status: {
       type: String,
-      default: "onine",
+      default: "online",
     },
     newMessages: {
       type: Object,
@@ -51,5 +65,31 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-const User = model<IUser>("User", userSchema);
+userSchema.pre("save", async function (next) {
+  const user = this;
+  if (user.isModified("password")) {
+    user.password = await bcrypt.hash(user.password, 12);
+  }
+  next();
+});
+
+userSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+  delete userObject.password;
+  return userObject;
+};
+
+userSchema.statics.findByCredentials = async function (
+  email: string,
+  password: string
+) {
+  const user: IUser | null = await User.findOne({ email });
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    throw new Error("Invalid credentials");
+  }
+  return user;
+};
+
+const User = model<IUser, UserModel>("User", userSchema);
 export default User;
