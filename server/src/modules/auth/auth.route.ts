@@ -1,9 +1,11 @@
 import { Router } from "express";
+import validateResource from "../../utils/validateResource";
+import { createUserSchema } from "../users/user.schema";
 import { login, register } from "./auth.controller";
 
-const router = Router();
+const authRouter = Router();
 
-router.post("/login", login);
-router.post("/register", register);
+authRouter.post("/login", login);
+authRouter.post("/register", validateResource(createUserSchema), register);
 
-export default router;
+export default authRouter;

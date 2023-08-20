@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const createUserSchema = z.object({
+export const createUserSchema = z.object({
   body: z
     .object({
       firstName: z

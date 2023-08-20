@@ -3,6 +3,7 @@ import { createServer } from "http";
 import socketServer from "./socketServer";
 import cors from "cors";
 import { connectDB } from "./config/connection";
+import authRouter from "./modules/auth/auth.route";
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.status(200).send("Welcome to Chatty App Api");
 });
+
+app.use("/auth", authRouter);
 
 const server = createServer(app);
 
