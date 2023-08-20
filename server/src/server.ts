@@ -2,6 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import socketServer from "./socketServer";
 import cors from "cors";
+import { connectDB } from "./config/connection";
 
 const app = express();
 
@@ -18,6 +19,15 @@ const server = createServer(app);
 
 socketServer(server);
 
-server.listen(4000, () => {
-  console.log(`Server running on http://localhost:4000`);
-});
+async function start() {
+  try {
+    await connectDB();
+    server.listen(4000, () => {
+      console.log(`Server running on http://localhost:4000`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+start();
