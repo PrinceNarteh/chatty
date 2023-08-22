@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { FormValues, User } from "../../types";
 
 const appApi = createApi({
   reducerPath: "apiApi",
@@ -6,14 +7,14 @@ const appApi = createApi({
     baseUrl: "http://localhost:4000",
   }),
   endpoints: (builder) => ({
-    register: builder.mutation({
+    register: builder.mutation<any, FormValues>({
       query: (payload) => ({
         url: "/auth/register",
         method: "POST",
         body: payload,
       }),
     }),
-    login: builder.mutation({
+    login: builder.mutation<any, { email: string; password: string }>({
       query: (payload) => ({
         url: "/auth/login",
         method: "POST",

@@ -8,7 +8,7 @@ interface IUser {
   lastName: string;
   email: string;
   password: string;
-  profileImage: string;
+  profileUrl: string;
   status: "online" | "offline";
   newMessages: object;
 }
@@ -47,7 +47,7 @@ const userSchema = new Schema<IUser, UserModel>(
       minlength: 6,
       required: [true, "password is rq"],
     },
-    profileImage: {
+    profileUrl: {
       type: String,
     },
     status: {

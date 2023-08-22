@@ -9,6 +9,9 @@ export const createUserSchema = z.object({
       lastName: z
         .string({ required_error: "last name is required" })
         .min(1, "last name cannot be empty"),
+      profileUrl: z
+        .string({ required_error: "profile url is required" })
+        .min(1, "profile url cannot be empty"),
       email: z.string({ required_error: "email is required" }).email(),
       password: z
         .string({ required_error: "password is required" })
