@@ -24,8 +24,12 @@ export async function register(
   res: Response
 ) {
   try {
-    const user = await createUser({ body: req.body });
-    res.status(201).json(user);
+    const response: any = await createUser({ body: req.body });
+    if (typeof response === "string") {
+      res.status(409).json({ message: response });
+      return;
+    }
+    res.status(201).json(response);
   } catch (error: any) {
     res.status(400).json(error.message);
   }

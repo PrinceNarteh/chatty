@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 import { z } from "zod";
 import { FormValues } from "../types";
 import uploadImage from "../utils/uploadImage";
+import { Icon } from "@iconify/react";
 import { useRegisterMutation } from "../redux/services/appApi";
 
 const schema = z
@@ -70,27 +71,30 @@ const Register = () => {
   };
 
   const submitHandler: SubmitHandler<FormValues> = async (data) => {
+    if (!image) {
+      return toast.error("Please upload your profile image");
+    }
     const toastId = toast.loading("Registering user...");
     try {
-      if (!image) {
-        return toast.error("Please upload your profile image");
-      }
       const url = await uploadImage({ image, setUploadingImg });
-      const user = await registerUser({ ...data, profileUrl: url });
-      console.log(user);
-      toast.dismiss(toastId);
+      const res: any = await registerUser({ ...data, profileUrl: url });
+      if (res.data) {
+        console.log(res.data);
+        toast.dismiss(toastId);
+      } else {
+        toast.dismiss(toastId);
+        toast.error(res.error.data.message);
+      }
     } catch (error) {
       setUploadingImg(false);
     }
   };
 
-  // console.log({ image, imagePreview });
-
   return (
     <div className="min-h-screen text-white flex items-center justify-center">
       <div className="flex flex-col justify-center items-center space-y-3 w-full max-w-xl mx-auto">
         <img src="/images/logo.png" alt="" className="w-10 mb-10" />
-        <h3 className="text-4xl">Login</h3>
+        <h3 className="text-4xl">Register</h3>
         <p className="text-gray-500 w-10/12 text-center">
           Please enter your email and password to login and continue
         </p>
@@ -98,6 +102,29 @@ const Register = () => {
           onSubmit={handleSubmit(submitHandler)}
           className="w-9/12 space-y-5"
         >
+          <div className="flex justify-center">
+            <div className="relative">
+              <label htmlFor="avatar" className="cursor-pointer">
+                <div className="w-28">
+                  <img
+                    src={imagePreview || "/images/user-placeholder.png"}
+                    alt=""
+                    className="rounded-full object-cover"
+                  />
+                </div>
+                <Icon
+                  icon="ic:baseline-add-a-photo"
+                  className="absolute text-light-green text-2xl right-1 bottom-1"
+                />
+                <input
+                  type="file"
+                  id="avatar"
+                  className="sr-only"
+                  onChange={(e) => validate(e)}
+                />
+              </label>
+            </div>
+          </div>
           <div className="flex flex-col md:flex-row gap-5 w-full">
             <div className="w-full">
               <input
@@ -135,6 +162,17 @@ const Register = () => {
               className="bg-transparent border border-light-green p-2 rounded-md w-full"
             />
             {errors["password"] && <p>{errors["password"].message}</p>}
+          </div>
+          <div>
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              {...register("confirmPassword")}
+              className="bg-transparent border border-light-green p-2 rounded-md w-full"
+            />
+            {errors["confirmPassword"] && (
+              <p>{errors["confirmPassword"].message}</p>
+            )}
           </div>
           <input
             type="submit"
