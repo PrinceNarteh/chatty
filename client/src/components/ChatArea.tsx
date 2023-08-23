@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import { useUser } from "../hooks/useUser";
 
 const images = [
   "/images/1.jpg",
@@ -12,7 +13,11 @@ const images = [
   "/images/9.jpg",
 ];
 
-const Chat = () => {
+const ChatArea = () => {
+  const user = useUser();
+
+  console.log(user);
+
   return (
     <div className="flex-1 bg-light-gray p-5 flex flex-col gap-3">
       <div className="flex items-center justify-between">
@@ -20,7 +25,10 @@ const Chat = () => {
           <img src="/images/1.jpg" alt="" className="w-16 h-16 rounded-full" />
           <div>
             <h2 className="text-3xl text-light-green">Prinart Studio</h2>
-            <p className="text-gray-500">Kwame Tawiah Typing...</p>
+            <div className="text-gray-500 flex items-end">
+              <p>Kwame Tawiah</p>
+              <Icon icon="eos-icons:three-dots-loading" className="text-lg" />
+            </div>
           </div>
         </div>
         <div className="relative flex  items-center h-12">
@@ -77,4 +85,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default ChatArea;
