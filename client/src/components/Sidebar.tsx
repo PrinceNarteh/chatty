@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import { useUser } from "../hooks/useUser";
 
 const links = [
   { label: "Reels", icon: "solar:graph-new-outline", path: "" },
@@ -11,6 +12,7 @@ const links = [
 ];
 
 const Sidebar = () => {
+  const user = useUser();
   return (
     <div className="bg-light-gray p-5 rounded-md flex flex-col justify-between w-16 overflow-hidden hover:w-48 duration-300">
       <div className="space-y-5">
@@ -28,8 +30,8 @@ const Sidebar = () => {
           </div>
         ))}
       </div>
-      <div className="w-7 h-7">
-        <img src="/images/user-placeholder.png" alt="" />
+      <div className="w-7 h-7 border border-light-green rounded-full overflow-hidden">
+        <img src={user.profileUrl} alt="" />
       </div>
     </div>
   );
