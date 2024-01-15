@@ -1,11 +1,14 @@
 import { createServer } from "http";
 import express from "express";
+import { socketServer } from "./socket";
 
 const app = express();
 
 app.use(express.json());
 
 const server = createServer(app);
+
+socketServer(server);
 
 const start = async () => {
   try {
