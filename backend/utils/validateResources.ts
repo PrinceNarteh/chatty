@@ -14,7 +14,7 @@ const validateResource =
     } catch (error: any) {
       return res
         .status(400)
-        .send(error.errors.map((error: any) => error.message));
+        .json({ error: error.errors.map((error: any) => error.message) });
     }
   };
 
