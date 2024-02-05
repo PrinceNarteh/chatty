@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 
 // Routes
-app.use("/auth", authRoute);
+app.use("/api/auth", authRoute);
 
 const server = createServer(app);
 

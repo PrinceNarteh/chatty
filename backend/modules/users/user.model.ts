@@ -2,11 +2,11 @@ import { Document, Schema, model, Model } from "mongoose";
 import bcrypt from "bcryptjs";
 
 interface IUser {
-  firstName: string;
-  lastName: string;
-  email: string;
+  fullName: string;
+  username: string;
   password: string;
   gender: string;
+  profilePic?: string;
 }
 
 interface IUserDocument extends IUser, Document {}
@@ -17,29 +17,29 @@ interface UserModel extends Model<IUser> {
 
 const userSchema = new Schema<IUser>(
   {
-    firstName: {
+    fullName: {
       type: String,
       required: [true, "First name is required"],
     },
-    lastName: {
+    username: {
       type: String,
-      required: [true, "Last name is required"],
-    },
-    email: {
-      type: String,
-      required: [true, "Email is required."],
-      lowercase: true,
+      required: [true, "Username is required."],
       unique: true,
     },
     password: {
       type: String,
       required: [true, "Password is required"],
       select: false,
+      minlength: 6,
     },
     gender: {
       type: String,
       enum: ["male", "female"],
       required: true,
+    },
+    profilePic: {
+      type: String,
+      default: "",
     },
   },
   {
