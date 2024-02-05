@@ -61,5 +61,5 @@ userSchema.statics.findByCredentials = async function (
   return user;
 };
 
-const User = model("User", userSchema);
+const User = model<IUser, UserModel>("User", userSchema);
 export default User;
