@@ -1,6 +1,6 @@
+require("dotenv").config();
 import { createServer } from "http";
 import express from "express";
-require("dotenv").config();
 import { socketServer } from "./socket";
 import { connectDB } from "./db/connectDB";
 
@@ -12,6 +12,7 @@ const server = createServer(app);
 
 socketServer(server);
 
+const PORT = process.env.PORT;
 const start = async () => {
   try {
     await connectDB();
